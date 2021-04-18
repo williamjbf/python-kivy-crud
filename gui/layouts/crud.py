@@ -7,7 +7,12 @@ from kivy.uix.togglebutton import ToggleButton
 from entidades import cliente
 from repositorio import clienteRepositorio
 
+
 class ExclusaoPopup(Popup):
+    pass
+
+
+class MensagemPopup(Popup):
     pass
 
 
@@ -23,11 +28,18 @@ class BotarListagem(ToggleButton):
     def _do_release(self, *args):
         Principal().clienteSelecionado(self.idCliente)
 
+
 class Principal(BoxLayout):
-    idCliente =0
+    idCliente = 0
+
     def __init__(self, **kwargs):
         super(Principal, self).__init__(**kwargs)
         self.listarClientes()
+
+    def limparCampos(self):
+        self.ids.nome.text = ' '
+        self.ids.idade.text = ' '
+
 
     def clienteSelecionado(self, id):
         Principal.idCliente = id
@@ -38,32 +50,34 @@ class Principal(BoxLayout):
         popup.funcao = partial(self.remover, id)
         popup.open()
 
-
     def remover(self, id):
         clienteRepositorio.ClienteRepositorio.removerCliente(id)
         self.listarClientes()
-
 
     def editarCliente(self):
         id = Principal.idCliente
 
         nome = self.ids.nome.text
         idade = self.ids.idade.text
-        cli = cliente.Cliente(nome, idade)
-        clienteRepositorio.ClienteRepositorio.editarCliente(id, cli)
-        self.listarClientes()
-
+        if nome == '' or idade == '':
+            MensagemPopup().open()
+        else:
+            cli = cliente.Cliente(nome, idade)
+            clienteRepositorio.ClienteRepositorio.editarCliente(id, cli)
+            self.limparCampos()
+            self.listarClientes()
 
     def cadastrarCliente(self):
         nome = self.ids.nome.text
         idade = self.ids.idade.text
 
-        cli = cliente.Cliente(nome, idade)
-        clienteRepositorio.ClienteRepositorio.inseirCliente(cli)
-        self.ids.nome.text = ' '
-        self.ids.idade.text = ' '
-        self.listarClientes()
-
+        if nome == '' or idade == '':
+            MensagemPopup().open()
+        else:
+            cli = cliente.Cliente(nome, idade)
+            clienteRepositorio.ClienteRepositorio.inseirCliente(cli)
+            self.limparCampos()
+            self.listarClientes()
 
     def listarClientes(self):
         self.ids.clientes.clear_widgets()
