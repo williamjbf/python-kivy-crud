@@ -1,7 +1,8 @@
-import MySQLdb, configparser
+import MySQLdb
+import configparser
 
 
-class FabricaConexao():
+class FabricaConexao:
 
     @staticmethod
     def conectar():

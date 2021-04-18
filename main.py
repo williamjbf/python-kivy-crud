@@ -1,8 +1,4 @@
-from repositorio import clienteRepositorio
+from gui.layouts import crud
 
-#cliente = cliente.Cliente("João", 26)
-
-clienteRepositorio.ClienteRepositorio.listarClientes()
-#clienteRepositorio.ClienteRepositorio.inseirCliente(cliente)
-#clienteRepositorio.ClienteRepositorio.listarClientes()
-#clienteRepositorio.ClienteRepositorio.removerCliente(1)
+telaCrud = crud.Crud
+telaCrud().run()
