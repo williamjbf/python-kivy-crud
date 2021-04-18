@@ -24,12 +24,12 @@ class ClienteRepositorio():
             fabrica.close()
 
     @staticmethod
-    def editarCliente(idCliente, cliente):
+    def editarCliente(idClientes, cliente):
         fabrica = fabricaConexao.FabricaConexao.conectar()
         try:
             cursor = fabrica.cursor()
-            cursor.execute("UPDATE cliente SET nome=%(nome)s, idade =%(idade)s where idcliente = %(idCliente)",
-                         ({'nome': cliente.nome, 'idade': cliente.idade, 'idCliente': idCliente}))
+            cursor.execute("UPDATE cliente SET nome=%(nome)s, idade =%(idade)s where idcliente = %(idCliente)s",
+                         ({'nome': cliente.nome, 'idade': cliente.idade, 'idCliente': idClientes}))
         finally:
             fabrica.close()
 

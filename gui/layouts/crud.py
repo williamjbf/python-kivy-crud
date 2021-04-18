@@ -15,10 +15,26 @@ class BotarListagem(ToggleButton):
         self.text = self.nomeCliente + " " + self.idadeCliente
         self.group = 'clientes'
 
+    def _do_release(self, *args):
+        Principal().clienteSelecionado(self.idCliente)
 
 class Principal(BoxLayout):
+    idCliente =0
     def __init__(self, **kwargs):
         super(Principal, self).__init__(**kwargs)
+        self.listarClientes()
+
+    def clienteSelecionado(self, id):
+        Principal.idCliente = id
+
+
+    def editarCliente(self):
+        id = Principal.idCliente
+
+        nome = self.ids.nome.text
+        idade = self.ids.idade.text
+        cli = cliente.Cliente(nome, idade)
+        clienteRepositorio.ClienteRepositorio.editarCliente(id, cli)
         self.listarClientes()
 
 
@@ -31,6 +47,7 @@ class Principal(BoxLayout):
         self.ids.nome.text = ' '
         self.ids.idade.text = ' '
         self.listarClientes()
+
 
     def listarClientes(self):
         self.ids.clientes.clear_widgets()
